@@ -111,7 +111,21 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="avlNode.cpp" />
+    <ClCompile Include="binaryTNode.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="menu.cpp" />
+    <ClCompile Include="numberGenerator.cpp" />
+    <ClCompile Include="timer.cpp" />
+    <ClCompile Include="treeControler.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="avlNode.h" />
+    <ClInclude Include="binaryTNode.h" />
+    <ClInclude Include="menu.h" />
+    <ClInclude Include="numberGenerator.h" />
+    <ClInclude Include="timer.h" />
+    <ClInclude Include="treeControler.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
