@@ -23,6 +23,7 @@ public:
 	void setCount(int);
 	void setHeight(int);
 	//class methods
-	
+	bool insertNode(aNode *);
+	void removeNode(aNode *);
 };
 
