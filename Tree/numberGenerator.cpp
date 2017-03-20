@@ -11,7 +11,7 @@ void numberGenerator::makeMainArray()
 {
 	this->nullArray();
 	srand(time(nullptr));
-	for (int i = 0; i < getLength(); i++) {
+	for (int i = 0; i < getNumbers(); i++) {
 		this->getUnique(i);
 	}
 }
@@ -46,7 +46,7 @@ void numberGenerator::setNullCopy()
 
 void numberGenerator::nullArray()
 {
-	for (int i = 0; i < getLength(); i++) {
+	for (int i = 0; i < getNumbers(); i++) {
 		arr[i] = 0;
 	}
 }
@@ -81,7 +81,7 @@ numberGenerator::numberGenerator()
 {
 	this->setNullArray();
 	this->setNullCopy();
-	this->setLength(0);
+	this->setNumbers(0);
 	this->setMin(0);
 	this->setMax(0);
 }
@@ -93,9 +93,9 @@ numberGenerator::~numberGenerator()
 	delete[] tab;
 }
 
-void numberGenerator::setLength(int value)
+void numberGenerator::setNumbers(int value)
 {
-	length = value;
+	numbers = value;
 }
 
 void numberGenerator::setMin(int value)
@@ -108,9 +108,9 @@ void numberGenerator::setMax(int value)
 	max = value;
 }
 
-int numberGenerator::getLength()
+int numberGenerator::getNumbers()
 {
-	return length;
+	return numbers;
 }
 
 int numberGenerator::getMaximumValue()
@@ -130,11 +130,19 @@ int numberGenerator::getMainArray()
 
 int numberGenerator::getCopyOfArray()
 {
-	tab = new int[getLength()];
-	for (int i = 0; i < getLength(); i++) {
-		tab[i] = arr[i];
+	if (arr != NULL) {
+		setNullCopy();
+		checkIfCopyExsist();
+		tab = new int[getNumbers()];
+		for (int i = 0; i < getNumbers(); i++) {
+			tab[i] = arr[i];
+		}
+		//std::copy(arr, arr + getNumbers(), tab);
+		return *tab;
 	}
-	return *tab;
+	else {
+		//
+	}
 }
 
 void numberGenerator::genereteArray()

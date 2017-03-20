@@ -2,7 +2,7 @@
 class numberGenerator
 {
 private:
-	int length;
+	int numbers;
 	int min, max;
 	int randNumber();
 	int * arr, *tab;
@@ -18,12 +18,12 @@ public:
 	numberGenerator();
 	~numberGenerator();
 	//settery
-	void setLength(int);
+	void setNumbers(int);
 	void setMin(int);
 	void setMax(int);
 	void setNullCopy();
 	//gettery
-	int getLength();
+	int getNumbers();
 	int getMaximumValue();
 	int getMinimumValue();
 	int getMainArray();
