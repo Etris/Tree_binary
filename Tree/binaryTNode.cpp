@@ -2,6 +2,11 @@
 #include <iostream>
 #include <stack>
 
+void binaryTNode::levelOrderSetCurrentLevel(int tmp)
+{
+
+}
+
 binaryTNode::binaryTNode()
 {
 	root = NULL;
@@ -56,32 +61,64 @@ void binaryTNode::setHeight(int value)
 
 bool binaryTNode::insertNode(Node * tmp)
 {
-	return false;
+		
+}
+/*
+Procedura iteracyjna:
+while(tmp != NULL && tmp->key != value){
+	if(value < tmp->key){
+		tmp = tmp->left;
+	}
+	else{
+		tmp = tmp->right;
+	}
+}
+*/
+Node * binaryTNode::search(Node * tmp, int value)
+{
+	if (tmp->key == value) {
+		return tmp;
+	}
+	else {
+		if (value < tmp->key) {
+			if(tmp->left != NULL) this->search(tmp->left, value);
+		}
+		else {
+			if(tmp->right != NULL) this->search(tmp->right, value);
+		}
+	}
 }
 
-Node * binaryTNode::search(int value)
+int binaryTNode::maxKey(Node * tmp)
 {
-	return nullptr;
+	while (tmp->right != NULL) {
+		tmp = tmp->right;
+	}
+	return tmp->key;
 }
 
-int binaryTNode::maxKey(Node *)
+int binaryTNode::minKey(Node * tmp)
 {
-	return 0;
+	while (tmp->left != NULL) {
+		tmp = tmp->left;
+	}
+	return tmp->key;
 }
 
-int binaryTNode::minKey(Node *)
+Node * binaryTNode::maxNode(Node * tmp)
 {
-	return 0;
+	while (tmp->right != NULL) {
+		tmp = tmp->right;
+	}
+	return tmp;
 }
 
-Node * binaryTNode::maxNode(Node *)
+Node * binaryTNode::minNode(Node * tmp)
 {
-	return nullptr;
-}
-
-Node * binaryTNode::minNode(Node *)
-{
-	return nullptr;
+	while (tmp->left != NULL) {
+		tmp = tmp->left;
+	}
+	return tmp;
 }
 
 Node * binaryTNode::prev(Node *)

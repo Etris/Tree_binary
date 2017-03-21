@@ -9,6 +9,7 @@ private:
 	Node * root;
 	int count;
 	int height;
+	void levelOrderSetCurrentLevel(int);
 public:
 	//constructor & dec
 	binaryTNode();
@@ -21,7 +22,7 @@ public:
 	void setHeight(int);
 	//class methods
 	bool insertNode(Node *);
-	Node * search(int);
+	Node * search(Node*, int);
 	int maxKey(Node *);
 	int minKey(Node *);
 	Node * maxNode(Node *);
