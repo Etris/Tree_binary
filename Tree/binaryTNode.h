@@ -16,6 +16,7 @@ public:
 	//settery & gettery
 	int getCount();
 	int getHeight();
+	int getHeightOfNode(Node *);
 	void setCount(int);
 	void setHeight(int);
 	//class methods
