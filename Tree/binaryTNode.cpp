@@ -2,9 +2,18 @@
 #include <iostream>
 #include <stack>
 
-void binaryTNode::levelOrderSetCurrentLevel(int tmp)
+void binaryTNode::levelOrderSetCurrentLevel(Node * tmp, int level)
 {
-
+	if (tmp == NULL) {
+		return;
+	}
+	if (level == 1) {
+		std::cout << tmp->key;
+	}
+	else {
+		this->levelOrderSetCurrentLevel(tmp->left, level - 1);
+		this->levelOrderSetCurrentLevel(tmp->right, level - 1);
+	}
 }
 
 binaryTNode::binaryTNode()
@@ -17,7 +26,7 @@ binaryTNode::binaryTNode()
 binaryTNode::~binaryTNode()
 {
 	while (root) {
-		this->remove(root);
+		this->remove(NULL, root, root->key);
 		//delete root;
 	}
 }
@@ -49,6 +58,42 @@ int binaryTNode::getHeightOfNode(Node * tmp)
 	}
 }
 
+bool binaryTNode::remove(Node * parent, Node * current, int value)
+{
+	if (current == NULL) return false;
+	if (current->key == value) {
+		if (current->left == NULL || current->right == NULL) {
+			Node * temp = current->left;
+			if (current->right) temp = current->right;
+			if (parent) {
+				if (parent->left == current) {
+					parent->left = temp;
+				}
+				else {
+					parent->right = temp;
+				}
+			}
+			else {
+				this->root = temp;
+			}
+		}
+		else {
+			Node * validSubs = current->right;
+			while (validSubs->left) {
+				validSubs = validSubs->left;
+			}
+			int temp = current->key;
+			current->key = validSubs->key;
+			validSubs->key = temp;
+			return remove(current, current->right, temp);
+		}
+		delete current;
+		return true;
+	}
+	return remove(current, current->left, value) || remove(current, current->right, value);
+}
+
+
 void binaryTNode::setCount(int value)
 {
 	count = value;
@@ -59,10 +104,62 @@ void binaryTNode::setHeight(int value)
 	height = value;
 }
 
-bool binaryTNode::insertNode(Node * tmp)
+int binaryTNode::maxDepth(Node * tmp)
 {
-		
+	if (tmp == NULL) {
+		return 0;
+	}else{
+		int leftDepth = this->maxDepth(tmp->left);
+		int rightDepth = this->maxDepth(tmp->right);
+		if (leftDepth > rightDepth) {
+			return leftDepth + 1;
+		}
+		else {
+			return rightDepth + 1;
+		}
+	}
 }
+
+void binaryTNode::createNode(Node * tmp,int value)
+{
+	if (tmp->key > value) {
+		if (tmp->left != NULL) {
+			tmp->left = new Node;
+		}
+		else {
+			createNode(tmp->left, value);
+		}
+	}
+	else {
+		if (tmp->right != NULL) {
+			tmp->right = new Node;
+			tmp->right->key = value;
+			tmp->right->left = NULL;
+			tmp->right->right = NULL;
+			tmp->right->prev = tmp;
+		}
+		else {
+			createNode(tmp->right, value);
+		}
+	}
+
+}
+
+bool binaryTNode::insertNode(int value)
+{
+	if (root == NULL) {
+		root = new Node;
+		root->key = value;
+		root->left = NULL;
+		root->right = NULL;
+		root->prev = NULL;
+	}
+	else {
+		createNode(root, value);
+	}
+	return true;
+}
+
 /*
 Procedura iteracyjna:
 while(tmp != NULL && tmp->key != value){
@@ -121,20 +218,21 @@ Node * binaryTNode::minNode(Node * tmp)
 	return tmp;
 }
 
-Node * binaryTNode::prev(Node *)
+Node * binaryTNode::prev(Node * tmp)
 {
-	return nullptr;
+	return tmp->prev;
 }
 
-Node * binaryTNode::succ(Node *)
+Node * binaryTNode::succ(Node * tmp)
 {
-	return nullptr;
+	return tmp->right;
 }
 
-Node * binaryTNode::remove(Node *)
+void binaryTNode::deleteValue(int value)
 {
-	return nullptr;
+	this->remove(this->prev(this->search(root, value)), this->search(root, value), value);
 }
+
 
 void binaryTNode::preOrder(Node * tmp)
 {
@@ -177,7 +275,10 @@ void binaryTNode::postOrder(Node * tmp)
 
 void binaryTNode::levelOrder(Node * tmp)
 {
-	
+	int hTemporary = getHeightOfNode(this->root);
+	for (int i = 1; i <= hTemporary; i++) {
+		this->levelOrderSetCurrentLevel(tmp, i);
+	}
 }
 
 void binaryTNode::walk(Node *)
@@ -185,7 +286,8 @@ void binaryTNode::walk(Node *)
 
 }
 
-void binaryTNode::countBST()
+int binaryTNode::countBST(Node * tmp)
 {
-
+	if (root != 0) return 0;
+	else return 1 + countBST(root->left) + countBST(root->right);
 }

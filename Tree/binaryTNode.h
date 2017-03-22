@@ -9,7 +9,9 @@ private:
 	Node * root;
 	int count;
 	int height;
-	void levelOrderSetCurrentLevel(int);
+	void levelOrderSetCurrentLevel(Node*, int);
+	int getHeightOfNode(Node *);
+	bool remove(Node*, Node *, int);
 public:
 	//constructor & dec
 	binaryTNode();
@@ -17,11 +19,12 @@ public:
 	//settery & gettery
 	int getCount();
 	int getHeight();
-	int getHeightOfNode(Node *);
 	void setCount(int);
 	void setHeight(int);
 	//class methods
-	bool insertNode(Node *);
+	int maxDepth(Node *);
+	void createNode(Node*, int);
+	bool insertNode(int);
 	Node * search(Node*, int);
 	int maxKey(Node *);
 	int minKey(Node *);
@@ -29,12 +32,12 @@ public:
 	Node * minNode(Node *);
 	Node * prev(Node *);
 	Node * succ(Node *);
-	Node * remove(Node*);
+	void deleteValue(int);
 	void preOrder(Node*);
 	void inOrder(Node*);
 	void postOrder(Node*);
 	void levelOrder(Node*);
 	void walk(Node *);
-	void countBST();
+	int countBST(Node *);
 };
 

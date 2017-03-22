@@ -57,7 +57,7 @@ void avlNode::setHeight(int value)
 
 bool avlNode::insertNode(aNode *)
 {
-	
+	return false;
 }
 
 void avlNode::removeNode(aNode *)
