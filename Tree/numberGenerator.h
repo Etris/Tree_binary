@@ -30,5 +30,7 @@ public:
 	int getCopyOfArray();
 	//class methods
 	void genereteArray();
+	void genereteSortedArray();
+	void sortArray(int * []);
 };
 

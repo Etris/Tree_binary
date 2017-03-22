@@ -68,13 +68,16 @@ bool binaryTNode::remove(Node * parent, Node * current, int value)
 			if (parent) {
 				if (parent->left == current) {
 					parent->left = temp;
+					temp->prev = parent;
 				}
 				else {
 					parent->right = temp;
+					temp->prev = parent;
 				}
 			}
 			else {
 				this->root = temp;
+				temp->prev = root;
 			}
 		}
 		else {

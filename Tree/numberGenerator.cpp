@@ -151,3 +151,12 @@ void numberGenerator::genereteArray()
 	this->checkIfCopyExsist();
 	this->makeMainArray();
 }
+
+void numberGenerator::genereteSortedArray()
+{
+}
+
+void numberGenerator::sortArray(int *[])
+{
+
+}
