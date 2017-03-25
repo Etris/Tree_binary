@@ -107,9 +107,10 @@ void binaryTNode::setHeight(int value)
 	height = value;
 }
 
-int binaryTNode::find(int value)
+bool binaryTNode::find(int value)
 {
-	this->search(root, value);
+	if (this->searcher(root, value) == true) return true;
+	else return false;
 }
 
 int binaryTNode::maxDepth(Node * tmp)
@@ -223,6 +224,20 @@ Node * binaryTNode::search(Node * tmp, int value)
 		}
 	}
 }
+bool binaryTNode::searcher(Node * tmp, int value)
+{
+	if (tmp->key == value) {
+		return true;
+	}
+	else {
+		if (value < tmp->key) {
+			if (tmp->left != NULL) this->search(tmp->left, value);
+		}
+		else {
+			if (tmp->right != NULL) this->search(tmp->right, value);
+		}
+	}
+}
 
 int binaryTNode::maxKey(Node * tmp)
 {
@@ -317,6 +332,11 @@ void binaryTNode::levelOrder(Node * tmp)
 	for (int i = 1; i <= hTemporary; i++) {
 		this->levelOrderSetCurrentLevel(tmp, i);
 	}
+}
+
+void binaryTNode::printer()
+{
+	this->inOrder(root);
 }
 
 void binaryTNode::walk(Node *)

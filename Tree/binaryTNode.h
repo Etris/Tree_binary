@@ -15,6 +15,7 @@ private:
 	void createNode(Node*, int);
 	void createDegeNode(Node *, int);
 	Node * search(Node*, int);
+	bool searcher(Node * tmp, int value);
 public:
 	//constructor & dec
 	binaryTNode();
@@ -25,7 +26,7 @@ public:
 	void setCount(int);
 	void setHeight(int);
 	//class methods
-	int find(int);
+	bool find(int);
 	int maxDepth(Node *);
 	bool insertNode(int);
 	bool insertDegenerated(int);
@@ -40,6 +41,7 @@ public:
 	void inOrder(Node*);
 	void postOrder(Node*);
 	void levelOrder(Node*);
+	void printer();
 	void walk(Node *);
 	int countBST(Node *);
 };
