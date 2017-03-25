@@ -107,6 +107,11 @@ void binaryTNode::setHeight(int value)
 	height = value;
 }
 
+int binaryTNode::find(int value)
+{
+	this->search(root, value);
+}
+
 int binaryTNode::maxDepth(Node * tmp)
 {
 	if (tmp == NULL) {
@@ -128,6 +133,10 @@ void binaryTNode::createNode(Node * tmp,int value)
 	if (tmp->key > value) {
 		if (tmp->left != NULL) {
 			tmp->left = new Node;
+			tmp->left->key = value;
+			tmp->left->left = NULL;
+			tmp->left->right = NULL;
+			tmp->left->prev = tmp;
 		}
 		else {
 			createNode(tmp->left, value);
@@ -148,6 +157,19 @@ void binaryTNode::createNode(Node * tmp,int value)
 
 }
 
+void binaryTNode::createDegeNode(Node *tmp, int value)
+{
+	if (tmp->right != NULL) {
+		tmp->right = new Node;
+		tmp->right->key = value;
+		tmp->right = tmp->left = NULL;
+		tmp->right->prev = tmp;
+	}
+	else {
+		createDegeNode(tmp->right, value);
+	}
+}
+
 bool binaryTNode::insertNode(int value)
 {
 	if (root == NULL) {
@@ -159,6 +181,19 @@ bool binaryTNode::insertNode(int value)
 	}
 	else {
 		createNode(root, value);
+	}
+	return true;
+}
+
+bool binaryTNode::insertDegenerated(int value)
+{
+	if (root = NULL) {
+		root = new Node;
+		root->key = value;
+		root->left = root->left = root->prev = NULL;
+	}
+	else {
+		createDegeNode(root, value);
 	}
 	return true;
 }

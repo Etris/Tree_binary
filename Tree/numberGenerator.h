@@ -13,6 +13,7 @@ private:
 	void nullArray();
 	void getUnique(int);
 	bool isInArray(int, int);
+	void sort();
 public:
 	//constr & deconst
 	numberGenerator();
@@ -26,11 +27,10 @@ public:
 	int getNumbers();
 	int getMaximumValue();
 	int getMinimumValue();
-	int getMainArray();
-	int getCopyOfArray();
+	int * getMainArray();
+	int * getCopyOfArray();
 	//class methods
 	void genereteArray();
 	void genereteSortedArray();
-	void sortArray(int * []);
 };
 

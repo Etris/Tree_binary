@@ -77,6 +77,24 @@ bool numberGenerator::isInArray(int i, int tmp)
 	return state;
 }
 
+void numberGenerator::sort()
+{
+	int tmp, i, j, x;
+	for (tmp = 1; tmp <= getNumbers() / 3; tmp = 3 * tmp + 1) {}
+	while (tmp > 0) {
+		for (int i = getNumbers() - tmp - 1; i >= 0; i--) {
+			x = arr[i];
+			j = i + tmp;
+			while ((j < getNumbers()) && (x > arr[j])) {
+				arr[j - tmp] = arr[j];
+				j = j + tmp;
+			}
+			arr[j - tmp] = x;
+		}
+		tmp /= 3;
+	}
+}
+
 numberGenerator::numberGenerator()
 {
 	this->setNullArray();
@@ -123,12 +141,12 @@ int numberGenerator::getMinimumValue()
 	return min;
 }
 
-int numberGenerator::getMainArray()
+int * numberGenerator::getMainArray()
 {
-	return *arr;
+	return arr;
 }
 
-int numberGenerator::getCopyOfArray()
+int * numberGenerator::getCopyOfArray()
 {
 	if (arr != NULL) {
 		setNullCopy();
@@ -138,7 +156,7 @@ int numberGenerator::getCopyOfArray()
 			tab[i] = arr[i];
 		}
 		//std::copy(arr, arr + getNumbers(), tab);
-		return *tab;
+		return tab;
 	}
 	else {
 		//
@@ -154,9 +172,6 @@ void numberGenerator::genereteArray()
 
 void numberGenerator::genereteSortedArray()
 {
-}
-
-void numberGenerator::sortArray(int *[])
-{
-
+	this->genereteArray();
+	this->sort();
 }

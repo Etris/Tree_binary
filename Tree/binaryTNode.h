@@ -12,6 +12,9 @@ private:
 	void levelOrderSetCurrentLevel(Node*, int);
 	int getHeightOfNode(Node *);
 	bool remove(Node*, Node *, int);
+	void createNode(Node*, int);
+	void createDegeNode(Node *, int);
+	Node * search(Node*, int);
 public:
 	//constructor & dec
 	binaryTNode();
@@ -22,10 +25,10 @@ public:
 	void setCount(int);
 	void setHeight(int);
 	//class methods
+	int find(int);
 	int maxDepth(Node *);
-	void createNode(Node*, int);
 	bool insertNode(int);
-	Node * search(Node*, int);
+	bool insertDegenerated(int);
 	int maxKey(Node *);
 	int minKey(Node *);
 	Node * maxNode(Node *);

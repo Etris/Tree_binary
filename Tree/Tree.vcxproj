@@ -113,6 +113,7 @@
   <ItemGroup>
     <ClCompile Include="avlNode.cpp" />
     <ClCompile Include="binaryTNode.cpp" />
+    <ClCompile Include="fileHandler.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="menu.cpp" />
     <ClCompile Include="numberGenerator.cpp" />
@@ -122,6 +123,7 @@
   <ItemGroup>
     <ClInclude Include="avlNode.h" />
     <ClInclude Include="binaryTNode.h" />
+    <ClInclude Include="fileHandler.h" />
     <ClInclude Include="menu.h" />
     <ClInclude Include="numberGenerator.h" />
     <ClInclude Include="timer.h" />
