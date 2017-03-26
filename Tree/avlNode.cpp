@@ -1,42 +1,20 @@
 #include "avlNode.h"
 #include <iostream>
 
-
-bool avlNode::insertBinary(aNode * tRoot, int value)
+aNode * avlNode::insertBinary(aNode * tRoot, int value)
 {
-	aNode * wsk, *ptr, *tmp;
-	bool t;
-	wsk = new aNode;
-	wsk->left = wsk->right = wsk->prev = NULL;
-	wsk->key = value;
-	wsk->balance = 0;
-	ptr = tRoot;
-	if (ptr == NULL) root = wsk;
-	else {
-		while (true) {
-			if (value < ptr->key) {
-				if (ptr->left != NULL) {
-					ptr->left = wsk;
-					break;
-				}
-				else {
-					ptr = ptr->left;
-				}
-			}
-			else {
-				if (ptr->right != NULL) {
-					ptr->right = wsk;
-					break;
-				}
-				else {
-					ptr = ptr->right;
-				}
-			}
-		}
-		wsk->prev = ptr;
+	if (tRoot == NULL || tRoot == nullptr) {
+		aNode * wsk = new aNode;
+		wsk->left = wsk->right = NULL;
+		wsk->key = value;
+		return wsk;
 	}
-	this->balanceTree(root);
-	return true;
+	else {
+		if (value < tRoot->key) tRoot->left = insertBinary(tRoot->left, value);
+		else tRoot->right = insertBinary(tRoot->right, value);
+		//else return tRoot; if (value >= tRoot->key)
+	}
+	//this->balanceTree();
 }
 
 bool avlNode::insertClassic(aNode *, int)
@@ -46,11 +24,11 @@ bool avlNode::insertClassic(aNode *, int)
 
 aNode * avlNode::removeBin(aNode * tmp, int value)
 {
-	if (root == NULL) return root;
+	if (tmp == NULL) return tmp;
 	if (value < tmp->key)
-		tmp->left = removeBin(tmp->left, value);
+		if(tmp->left != NULL) tmp->left = removeBin(tmp->left, value);
 	else if (value > tmp->key)
-		tmp->right = removeBin(tmp->right, value);
+		if(tmp->right != NULL) tmp->right = removeBin(tmp->right, value);
 	else
 	{
 		if ((tmp->left == NULL) || (tmp->right == NULL))
@@ -67,20 +45,64 @@ aNode * avlNode::removeBin(aNode * tmp, int value)
 			}
 			else 
 				tmp = temp; 
+			delete temp;
 		}
 		else
 		{
 			aNode * temp = minValueNode(tmp->right);
 			tmp->key = temp->key;
-			tmp->right = removeBin(tmp->right, temp->key);
+			tmp->right = removeFast(tmp->right, temp->key);
 		}
 	}
-	this->balanceTree(root);
+	if (tmp == NULL) return tmp;
+	this->balanceTree();
+}
+
+aNode * avlNode::removeFast(aNode * tmp, int value)
+{
+	if (tmp == NULL) return tmp;
+	if (value < tmp->key)
+		tmp->left = removeFast(tmp->left, value);
+	else if (value > tmp->key)
+		tmp->right = removeFast(tmp->right, value);
+	else
+	{
+		if ((tmp->left == NULL) || (tmp->right == NULL))
+		{
+			aNode * temp = NULL;
+			if (temp == tmp->left)
+				temp = tmp->right;
+			else
+				temp = tmp->left;
+			if (temp == NULL)
+			{
+				temp = tmp;
+				tmp = NULL;
+			}
+			else
+				tmp = temp;
+		}
+		else
+		{
+			aNode * temp = minValueNode(tmp->right);
+			tmp->key = temp->key;
+			tmp->right = removeFast(tmp->right, temp->key);
+		}
+	}
 }
 
 bool avlNode::removeClassic(aNode *, int)
 {
 	return false;
+}
+
+void avlNode::inOrder(aNode * tmp)
+{
+	if (tmp != NULL) {
+		if (tmp->left != NULL) inOrder(tmp->left);
+		std::cout << tmp->key << " ";
+		if (tmp->right != NULL) inOrder(tmp->right);
+	}
 }
 
 aNode * avlNode::minValueNode(aNode * node)
@@ -113,8 +135,13 @@ int avlNode::getKey(aNode * tmp)
 
 int avlNode::count(aNode * tmp)
 {
-	if (root != 0) return 0;
-	else return 1 + count(root->left) + count(root->right);
+	if (tmp == NULL) return 0;
+	else {
+		if(tmp->left != NULL && tmp->right != NULL) return 1 + count(tmp->left) + count(tmp->right);
+		else if (tmp->left != NULL && tmp->right == NULL) return 1 + count(tmp->left);
+		else if (tmp->right != NULL && tmp->left == NULL) return 1 + count(tmp->right);
+		else return 1;
+	}
 }
 
 
@@ -146,34 +173,35 @@ aNode * avlNode::buildTree(int start, int end)
 	int mid = (start + end) / 2;
 	aNode * tmpNode = new aNode;
 	tmpNode->key = arr[mid];
-	tmpNode->left = this->buildTree(start, mid - 1);
-	tmpNode->left->prev = tmpNode;
-	tmpNode->right = this->buildTree(mid + 1, end);
-	tmpNode->right->prev = tmpNode;
+	tmpNode->left = buildTree(start, mid - 1);
+	if(tmpNode -> left != NULL) tmpNode->left->prev = tmpNode;
+	tmpNode->right = buildTree(mid + 1, end);
+	if (tmpNode->right != NULL) tmpNode->right->prev = tmpNode;
 	return tmpNode;
 }
 
-void avlNode::balanceTree(aNode * tmp)
+void avlNode::balanceTree()
 {
-	if (arr != NULL)
-	{
-		delete[] arr;
-		arr = NULL;
-	}
+	this->checkIfArrayIsSet();
 	arr = new int[getCount()];
-	this->inOrderBuilder(root, 0);
-	this->sortArray();
-	this->postOrderDelete(root);
-	buildTree(0, this->getCount());
+	var = 0;
+	inOrderBuilder(root);
+	std::cout << "#0.0" << std::endl;
+	sortArray();
+	std::cout << "#0.1" << std::endl;
+	postOrderDelete(root);
+	std::cout << "#0.2" << std::endl;
+	buildTree(0, getCount()-1);
+	std::cout << "procedure done" << std::endl;
 }
 
-void avlNode::inOrderBuilder(aNode * tmp, int var)
+void avlNode::inOrderBuilder(aNode * tmp)
 {
-	if (tmp != NULL) {
-		if (tmp->left != NULL) inOrderBuilder(tmp->left, var + 1);
-		std::cout << tmp->key;
+	if (tmp != NULL && tmp != nullptr) {
+		if (tmp->left != NULL) inOrderBuilder(tmp->left);
 		arr[var] = tmp->key;
-		if (tmp->right != NULL) inOrderBuilder(tmp->right, var + 2);
+		var++;
+		if (tmp->right != NULL) inOrderBuilder(tmp->right);
 	}
 }
 
@@ -182,7 +210,7 @@ void avlNode::postOrderDelete(aNode * tmp)
 	if (tmp != NULL) {
 		if (tmp->left != NULL) this->postOrderDelete(tmp->left);
 		if (tmp->right != NULL) this->postOrderDelete(tmp->right);
-		this->removeBin(tmp, this->getKey(tmp));
+		root = removeFast(root, tmp->key);
 	}
 }
 
@@ -220,22 +248,33 @@ bool avlNode::search(aNode * tmp, int value)
 	}
 }
 
+void avlNode::checkIfArrayIsSet()
+{
+	if (arr == NULL || arr[0] == NULL) {
+		delete[] arr;
+	}
+	arr = NULL;
+}
+
 avlNode::avlNode()
 {
 	root = NULL;
+	//arr = NULL;
+	this->setCount(0);
 }
 
 
 avlNode::~avlNode()
 {
+	delete[] arr;
 	while (root) {
-		this->removeBin(root, this->getKey(root));
+		this->removeFast(root, this->getKey(root));
 	}
 }
 
 int avlNode::getCount()
 {
-	this->setCount(this->count(root));
+	//this->setCount(this->count(root));
 	return counts;
 }
 
@@ -260,15 +299,26 @@ void avlNode::setArray(int tab[])
 	arr = tab;
 }
 
+void avlNode::removeTree()
+{
+	while (root) {
+		this->postOrderDelete(root);
+	}
+}
+
+void avlNode::printer()
+{
+	this->inOrder(root);
+}
+
 void avlNode::buildNew(int value)
 {
 	root = buildTree(0, value);
 }
 
-bool avlNode::insertNode(int value)
+void avlNode::insertNode(int value)
 {
-	if (this->insertBinary(root, value) == true) return true;
-	else return false;
+	root = insertBinary(root, value);
 }
 
 bool avlNode::insertNodeClassicalMethod(int value)

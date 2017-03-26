@@ -1,6 +1,7 @@
 #pragma once
 #include "binaryTNode.h"
 #include "avlNode.h"
+#include "avNodes.h"
 #include "numberGenerator.h"
 #include "timer.h"
 class treeControler

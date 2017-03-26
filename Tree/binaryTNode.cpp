@@ -26,9 +26,14 @@ binaryTNode::binaryTNode()
 binaryTNode::~binaryTNode()
 {
 	while (root) {
-		this->remove(NULL, root, root->key);
+		this->remove(root, root->key);
 		//delete root;
 	}
+}
+
+void binaryTNode::setNullRoot()
+{
+	root = NULL;
 }
 
 int binaryTNode::getCount()
@@ -58,42 +63,31 @@ int binaryTNode::getHeightOfNode(Node * tmp)
 	}
 }
 
-bool binaryTNode::remove(Node * parent, Node * current, int value)
+Node * binaryTNode::remove(Node * tmp, int value)
 {
-	if (current == NULL) return false;
-	if (current->key == value) {
-		if (current->left == NULL || current->right == NULL) {
-			Node * temp = current->left;
-			if (current->right) temp = current->right;
-			if (parent) {
-				if (parent->left == current) {
-					parent->left = temp;
-					temp->prev = parent;
-				}
-				else {
-					parent->right = temp;
-					temp->prev = parent;
-				}
-			}
-			else {
-				this->root = temp;
-				temp->prev = root;
-			}
-		}
-		else {
-			Node * validSubs = current->right;
-			while (validSubs->left) {
-				validSubs = validSubs->left;
-			}
-			int temp = current->key;
-			current->key = validSubs->key;
-			validSubs->key = temp;
-			return remove(current, current->right, temp);
-		}
-		delete current;
-		return true;
+	if (tmp == NULL) {
+		return tmp;
 	}
-	return remove(current, current->left, value) || remove(current, current->right, value);
+	else {
+		if (value < tmp->key) if(tmp->left != NULL) tmp->left = remove(tmp->left, value);
+		if (value > tmp->key)if (tmp->right != NULL) tmp->right = remove(tmp->right, value);
+		else {
+			if (tmp->left == NULL) {
+				Node * temp = tmp->right;
+				delete tmp;
+				return temp;
+			}
+			else if (tmp->right == NULL) {
+				Node * temp = tmp->left;
+				delete tmp;
+				return temp;
+			}
+			Node * temp = minNode(tmp->right);
+			tmp->key = temp->key;
+			tmp->right = remove(tmp->right, temp->key);
+		}
+		return tmp;
+	}
 }
 
 
@@ -129,74 +123,30 @@ int binaryTNode::maxDepth(Node * tmp)
 	}
 }
 
-void binaryTNode::createNode(Node * tmp,int value)
+Node * binaryTNode::createNode(Node * tmp, int value)
 {
-	if (tmp->key > value) {
-		if (tmp->left != NULL) {
-			tmp->left = new Node;
-			tmp->left->key = value;
-			tmp->left->left = NULL;
-			tmp->left->right = NULL;
-			tmp->left->prev = tmp;
+	if (tmp == NULL) {
+		tmp = new Node;
+		tmp->key = value;
+		tmp->left = NULL;
+		tmp->right = NULL;
+		tmp->prev = NULL;
+		return tmp;
+	}
+	else {
+		if (value < tmp->key) {
+			tmp->left = this->createNode(tmp->left, value);
 		}
 		else {
-			createNode(tmp->left, value);
+			tmp->right = this->createNode(tmp->right, value);
 		}
 	}
-	else {
-		if (tmp->right != NULL) {
-			tmp->right = new Node;
-			tmp->right->key = value;
-			tmp->right->left = NULL;
-			tmp->right->right = NULL;
-			tmp->right->prev = tmp;
-		}
-		else {
-			createNode(tmp->right, value);
-		}
-	}
-
+	return tmp;
 }
 
-void binaryTNode::createDegeNode(Node *tmp, int value)
+void binaryTNode::insertNode(int value)
 {
-	if (tmp->right != NULL) {
-		tmp->right = new Node;
-		tmp->right->key = value;
-		tmp->right = tmp->left = NULL;
-		tmp->right->prev = tmp;
-	}
-	else {
-		createDegeNode(tmp->right, value);
-	}
-}
-
-bool binaryTNode::insertNode(int value)
-{
-	if (root == NULL) {
-		root = new Node;
-		root->key = value;
-		root->left = NULL;
-		root->right = NULL;
-		root->prev = NULL;
-	}
-	else {
-		createNode(root, value);
-	}
-	return true;
-}
-
-bool binaryTNode::insertDegenerated(int value)
-{
-	if (root = NULL) {
-		root = new Node;
-		root->key = value;
-		root->left = root->left = root->prev = NULL;
-	}
-	else {
-		createDegeNode(root, value);
-	}
-	return true;
+	root = this->createNode(root, value);
 }
 
 /*
@@ -283,7 +233,7 @@ Node * binaryTNode::succ(Node * tmp)
 
 void binaryTNode::deleteValue(int value)
 {
-	this->remove(this->prev(this->search(root, value)), this->search(root, value), value);
+	this->remove(root, value);
 }
 
 
@@ -312,7 +262,7 @@ void binaryTNode::inOrder(Node * tmp)
 {
 	if (tmp != NULL) {	
 		if(tmp->left != NULL) inOrder(tmp->left);
-		std::cout << tmp->key;
+		std::cout << tmp->key << " ";
 		if(tmp->right != NULL) inOrder(tmp->right);
 	}
 }
@@ -339,13 +289,23 @@ void binaryTNode::printer()
 	this->inOrder(root);
 }
 
-void binaryTNode::walk(Node *)
-{
-
-}
-
 int binaryTNode::countBST(Node * tmp)
 {
 	if (root != 0) return 0;
 	else return 1 + countBST(root->left) + countBST(root->right);
+}
+
+void binaryTNode::postOrderDelete(Node * tmp)
+{
+	if (tmp != NULL) {
+		if (tmp->left != NULL) this->postOrderDelete(tmp->left);
+		if (tmp->right != NULL) this->postOrderDelete(tmp->right);
+		remove(root, tmp->key);
+	}
+	root = NULL;
+}
+
+void binaryTNode::removeTree()
+{
+	this->postOrderDelete(root);
 }

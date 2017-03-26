@@ -27,9 +27,6 @@
     <ClCompile Include="binaryTNode.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="avlNode.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="timer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -37,6 +34,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="fileHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="avNodes.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -50,9 +50,6 @@
     <ClInclude Include="binaryTNode.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="avlNode.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="timer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -62,8 +59,8 @@
     <ClInclude Include="fileHandler.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="ClassDiagram.cd" />
+    <ClInclude Include="avNodes.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

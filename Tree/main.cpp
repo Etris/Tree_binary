@@ -1,6 +1,9 @@
 /*
 
 */
+#include "menu.h"
 int main() {
-	return 0;
+	menu * controler = new menu;
+	delete controler;
+	system("pause");
 }

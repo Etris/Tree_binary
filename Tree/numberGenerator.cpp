@@ -9,6 +9,7 @@ int numberGenerator::randNumber()
 
 void numberGenerator::makeMainArray()
 {
+	arr = new int[getNumbers()];
 	this->nullArray();
 	srand(time(nullptr));
 	for (int i = 0; i < getNumbers(); i++) {
@@ -46,6 +47,7 @@ void numberGenerator::setNullCopy()
 
 void numberGenerator::nullArray()
 {
+	
 	for (int i = 0; i < getNumbers(); i++) {
 		arr[i] = 0;
 	}
@@ -64,7 +66,7 @@ void numberGenerator::getUnique(int i)
 
 bool numberGenerator::isInArray(int i, int tmp)
 {
-	int state;
+	bool state = false;
 	for (int x = 0; x < i; x++) {
 		if (arr[x] == tmp) {
 			state = true;

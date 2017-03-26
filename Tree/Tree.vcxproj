@@ -111,7 +111,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="avlNode.cpp" />
+    <ClCompile Include="avNodes.cpp" />
     <ClCompile Include="binaryTNode.cpp" />
     <ClCompile Include="fileHandler.cpp" />
     <ClCompile Include="main.cpp" />
@@ -121,16 +121,13 @@
     <ClCompile Include="treeControler.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="avlNode.h" />
+    <ClInclude Include="avNodes.h" />
     <ClInclude Include="binaryTNode.h" />
     <ClInclude Include="fileHandler.h" />
     <ClInclude Include="menu.h" />
     <ClInclude Include="numberGenerator.h" />
     <ClInclude Include="timer.h" />
     <ClInclude Include="treeControler.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="ClassDiagram.cd" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -11,16 +11,21 @@ private:
 	int height;
 	void levelOrderSetCurrentLevel(Node*, int);
 	int getHeightOfNode(Node *);
-	bool remove(Node*, Node *, int);
-	void createNode(Node*, int);
-	void createDegeNode(Node *, int);
+	Node * remove(Node *, int);
+	Node * createNode(Node*, int);
 	Node * search(Node*, int);
 	bool searcher(Node * tmp, int value);
+	void preOrder(Node*);
+	void inOrder(Node*);
+	void postOrder(Node*);
+	void levelOrder(Node*);
+	void postOrderDelete(Node *);
 public:
 	//constructor & dec
 	binaryTNode();
 	~binaryTNode();
 	//settery & gettery
+	void setNullRoot();
 	int getCount();
 	int getHeight();
 	void setCount(int);
@@ -28,8 +33,7 @@ public:
 	//class methods
 	bool find(int);
 	int maxDepth(Node *);
-	bool insertNode(int);
-	bool insertDegenerated(int);
+	void insertNode(int);
 	int maxKey(Node *);
 	int minKey(Node *);
 	Node * maxNode(Node *);
@@ -37,12 +41,8 @@ public:
 	Node * prev(Node *);
 	Node * succ(Node *);
 	void deleteValue(int);
-	void preOrder(Node*);
-	void inOrder(Node*);
-	void postOrder(Node*);
-	void levelOrder(Node*);
 	void printer();
-	void walk(Node *);
 	int countBST(Node *);
+	void removeTree();
 };
 
